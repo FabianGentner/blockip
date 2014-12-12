@@ -1,0 +1,5 @@
+$ curl -X POST ${HOST}/blacklist/192.0.2.1/24 --user ${USER} --data comment='Testing...' --data for='24h'
+{
+  "error": true,
+  "message": "The IP address \"192.0.2.1/24\" has host bits set."
+}

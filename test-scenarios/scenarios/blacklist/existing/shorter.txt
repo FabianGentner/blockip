@@ -1,0 +1,32 @@
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data for='12 hours'
+{
+  "existing_blacklist_entries": [
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:00",
+      "status": "ACTIVE"
+    }
+  ],
+  "message": "The address 192.0.2.1/32 is already blacklisted for a period that exceeds the requested period."
+}
+$ curl -X GET ${HOST}/blacklist --user ${USER}
+{
+  "blacklist_entries": [
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:00",
+      "status": "ACTIVE"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+$ curl -X POST ${HOST}/whitelist/192.0.2.1 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/24 --user ${USER} --data comment='Testing...' --data for='24 hours'
+{
+  "conflicting_whitelist_entries": [
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "ACTIVE"
+    }
+  ],
+  "error": true,
+  "message": "The address 192.0.2.0/24 cannot be blacklisted because it's already whitelisted.",
+  "note": "The System team can specify that certain IP addresses cannot be blacklisted by explicitely whitelisting them. The whitelist entries listed under \"conflicting_whitelist_entries\" prevent the IP address 192.0.2.0/24 from being blacklisted."
+}

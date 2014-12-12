@@ -1,0 +1,4 @@
+$ curl -X DELETE ${HOST}/whitelist/192.0.2.0/24 --user ${USER} --data comment='Testing...'
+{
+  "message": "The address 192.0.2.0/24 isn't actually whitelisted."
+}

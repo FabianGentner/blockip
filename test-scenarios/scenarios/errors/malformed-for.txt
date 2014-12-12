@@ -1,0 +1,6 @@
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data for='1 fortnight'
+{
+  "error": true,
+  "message": "The value given for 'for' ('1 fortnight') is invalid.",
+  "note": "Legal values are all strings that PostgreSQL can parse as an interval with a (positive) length of at least one minute. Examples include \"8h\", \"1 day\", \"2.5w\", \"1 year 1 day\", and \"P1Y2M3DT4H5M6S\"."
+}

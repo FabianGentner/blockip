@@ -1,0 +1,5 @@
+$ curl -X GET ${HOST}/blacklist/not-an/ip --user ${USER}
+{
+  "error": true,
+  "message": "The parameter \"not-an/ip\" is not a valid IP address."
+}

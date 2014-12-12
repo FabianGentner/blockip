@@ -1,0 +1,4 @@
+dogpile.cache
+flask
+psycopg2
+python3-ldap
