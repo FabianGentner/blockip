@@ -1,0 +1,6 @@
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data until='whenever'
+{
+  "error": true,
+  "message": "The value given for 'until' ('whenever') is invalid.",
+  "note": "Legal values are all strings that PostgreSQL can parse as a timestamp with time zone that lies at least one minute in the future. Examples include \"2014-11-14 16:03:00\", \"2014-11-14 16:03:00+01:00\", \"2014-11-14 16:03:00 CET\", and \"November 14, 2014 AD, at 17:03:00 (Europe/Berlin)\" (except that those will be in the past by the time you read this)."
+}

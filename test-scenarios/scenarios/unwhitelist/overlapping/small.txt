@@ -1,0 +1,47 @@
+$ curl -X POST ${HOST}/whitelist/192.0.2.0/24 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/whitelist/192.0.2.1 --user ${USER} --data comment='Testing...'
+$ curl -X DELETE ${HOST}/whitelist/192.0.2.1 --user ${USER} --data comment='Testing...'
+{
+  "message": "The IP address 192.0.2.1/32 has been removed from the whitelist, but the overlapping whitelist entries listed below are still in effect.",
+  "overlapping_whitelist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "ACTIVE"
+    }
+  ],
+  "removed_whitelist_entries": [
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "nullified": {
+        "at": "2014-12-12 12:00:02",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "CANCELED"
+    }
+  ]
+}
+$ curl -X GET ${HOST}/whitelist --user ${USER}
+{
+  "whitelist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "ACTIVE"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data until='1900-01-01'
+{
+  "error": true,
+  "message": "The time period the blacklist entry is to be active for is already over."
+}

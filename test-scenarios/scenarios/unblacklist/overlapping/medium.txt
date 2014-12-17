@@ -1,0 +1,71 @@
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/24 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/30 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X DELETE ${HOST}/blacklist/192.0.2.0/30 --user ${USER} --data comment='Testing...'
+{
+  "message": "The IP address 192.0.2.0/30 has been removed from the blacklist, but the overlapping blacklist entries listed below are still in effect.",
+  "overlapping_blacklist_entries": [
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:00",
+      "status": "ACTIVE"
+    },
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:01",
+      "status": "ACTIVE"
+    }
+  ],
+  "removed_blacklist_entries": [
+    {
+      "address": "192.0.2.0/30",
+      "created": {
+        "at": "2014-12-12 12:00:02",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:02",
+      "nullified": {
+        "at": "2014-12-12 12:00:03",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "CANCELED"
+    }
+  ]
+}
+$ curl -X GET ${HOST}/blacklist --user ${USER}
+{
+  "blacklist_entries": [
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:00",
+      "status": "ACTIVE"
+    },
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:01",
+      "status": "ACTIVE"
+    }
+  ]
+}

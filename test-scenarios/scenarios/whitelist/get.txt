@@ -1,0 +1,43 @@
+$ curl -X GET ${HOST}/whitelist --user ${USER}
+{
+  "whitelist_entries": []
+}
+$ curl -X POST ${HOST}/whitelist/192.0.2.0/24 --user ${USER} --data comment='Testing...'
+$ curl -X GET ${HOST}/whitelist --user ${USER}
+{
+  "whitelist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "ACTIVE"
+    }
+  ]
+}
+$ curl -X POST ${HOST}/whitelist/198.51.100.0/24 --user ${USER} --data comment='Testing...'
+$ curl -X GET ${HOST}/whitelist --user ${USER}
+{
+  "whitelist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "ACTIVE"
+    },
+    {
+      "address": "198.51.100.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:03",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "ACTIVE"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+$ curl -X POST ${HOST}/whitelist/192.0.2.0/24 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/whitelist/192.0.2.0/24 --user ${USER} --data comment='Testing...'
+{
+  "existing_whitelist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "ACTIVE"
+    }
+  ],
+  "message": "The address 192.0.2.0/24 is already whitelisted."
+}
+$ curl -X GET ${HOST}/whitelist --user ${USER}
+{
+  "whitelist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "ACTIVE"
+    }
+  ]
+}

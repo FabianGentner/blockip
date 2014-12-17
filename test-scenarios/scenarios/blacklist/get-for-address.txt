@@ -1,0 +1,72 @@
+$ curl -X GET ${HOST}/blacklist/192.0.2.0/30 --user ${USER}
+{
+  "blacklist_entries": []
+}
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/24 --user ${USER} --data comment='Testing...' --data until='9999-12-31'
+$ curl -X GET ${HOST}/blacklist/192.0.2.0/30 --user ${USER}
+{
+  "blacklist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "9999-12-31 00:00:00",
+      "status": "ACTIVE"
+    }
+  ]
+}
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data until='9999-12-31'
+$ curl -X GET ${HOST}/blacklist/192.0.2.0/30 --user ${USER}
+{
+  "blacklist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "9999-12-31 00:00:00",
+      "status": "ACTIVE"
+    },
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:03",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "9999-12-31 00:00:00",
+      "status": "ACTIVE"
+    }
+  ]
+}
+$ curl -X POST ${HOST}/blacklist/198.51.100.0/24 --user ${USER} --data comment='Testing...' --data until='9999-12-31'
+$ curl -X GET ${HOST}/blacklist/192.0.2.0/30 --user ${USER}
+{
+  "blacklist_entries": [
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "9999-12-31 00:00:00",
+      "status": "ACTIVE"
+    },
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:03",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "9999-12-31 00:00:00",
+      "status": "ACTIVE"
+    }
+  ]
+}
