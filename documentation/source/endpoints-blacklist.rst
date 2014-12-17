@@ -9,7 +9,7 @@
     Lists all active blacklist entries.
 
     :status 401: If the user is not logged in.
-    :status 403: If the user lacks the role `apps/blockip/reader`.
+    :status 403: If the user lacks the role *reader*.
     :status 200: Otherwise.
 
 
@@ -21,7 +21,7 @@
         The IP address (or block of IP addresses) blacklist entries should be listed for.
 
     :status 401: If the user is not logged in.
-    :status 403: If the user lacks the role `apps/blockip/reader`.
+    :status 403: If the user lacks the role *reader*.
     :status 200: Otherwise.
 
 
@@ -51,7 +51,7 @@
         The date and time until which the IP address should be blacklisted. See `Block Duration`_ for details.
 
     :status 401: If the user is not logged in.
-    :status 403: If the user lacks the role `apps/blockip/blacklister`, or `apps/blockip/network-blacklister` if the
+    :status 403: If the user lacks the role *blacklister*, or *network-blacklister* if the
                  request was to blacklist a block of IP addresses.
     :status 400: If the IP address or duration is malformed, or the comment is missing.
     :status 409: If blacklisting the IP address would conflict with a whitelisted IP address.
@@ -78,7 +78,7 @@
         A comment describing the reason the address should no longer be blacklisted. Required.
 
     :status 401: If the user is not logged in.
-    :status 403: If the user lacks the role `apps/blockip/unblacklister`, or `apps/blockip/network-unblacklister` if the
+    :status 403: If the user lacks the role *unblacklister*, or *network-unblacklister* if the
                  request was to remove a block of IP addresses from the blackelist.
     :status 400: If the IP address is malformed or the comment is missing.
     :status 200: If the IP address has been successfully removed from the blacklist or wasn't actually on the

@@ -9,7 +9,7 @@
     Lists all active whitelist entries.
 
     :status 401: If the user is not logged in.
-    :status 403: If the user lacks the role `apps/blockip/reader`.
+    :status 403: If the user lacks the role *reader*.
     :status 200: Otherwise.
 
 
@@ -21,7 +21,7 @@
         The IP address (or block of IP addresses) whitelist entries should be listed for.
 
     :status 401: If the user is not logged in.
-    :status 403: If the user lacks the role `apps/blockip/reader`.
+    :status 403: If the user lacks the role *reader*.
     :status 200: Otherwise.
 
 
@@ -44,7 +44,7 @@
         A comment describing the reason the address should be whitelisted. Required.
 
     :status 401: If the user is not logged in.
-    :status 403: If the user lacks the role `apps/blockip/whitelister`, or `apps/blockip/network-whitelister` if the
+    :status 403: If the user lacks the role *whitelister*, or *network-whitelister* if the
                  request was to whitelist a block of IP addresses.
     :status 400: If the IP address is malformed or the comment is missing.
     :status 409: If whitelisting the IP address would conflict with a blacklisted IP address.
@@ -71,7 +71,7 @@
         A comment describing the reason the address should no longer be whitelisted. Required.
 
     :status 401: If the user is not logged in.
-    :status 403: If the user lacks the role `apps/blockip/unwhitelister`, or `apps/blockip/network-unwhitelister` if the
+    :status 403: If the user lacks the role *unwhitelister*, or *network-unwhitelister* if the
                  request was to remove a block of IP addresses from the whitelist.
     :status 400: If the IP address is malformed or the comment is missing.
     :status 200: If the IP address has been successfully removed from the whitelist or wasn't actually on the

@@ -9,6 +9,7 @@ blockip
 
    concepts
    endpoints
+   permissions
 
 
 

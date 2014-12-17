@@ -19,16 +19,8 @@ import utilities
 
 ROLE_CACHE_EXPIRATION_TIME = 600  # seconds
 
-USER_DN_TEMPLATE = 'uid={user_name},ou=people,ou=users,dc=zalando,dc=net'
-ROLE_DN_TEMPLATE = 'cn={role},ou=blockip,ou=apps'
-ROLE_DN_URL_TEMPLATE = ROLE_DN_TEMPLATE.replace('=', '%3D')
 
-ROLE_PATH_TEMPLATE = 'apps/blockip/{role}'
-REQUEST_ROLE_URL_TEMPLATE = 'https://access.zalando.net/#/role-request?selected={dn}'.format(dn=ROLE_DN_URL_TEMPLATE)
-
-ROLE_SEARCH_BASE = 'ou=blockip,ou=apps,dc=zalando,dc=net'
-ROLE_SEARCH_FILTER_TEMPLATE = '(member={user_dn})'
-ROLE_SEARCH_ATTRIBUTES = ['cn']
+### ROLES ###
 
 ROLES = {
     'reader',
@@ -93,7 +85,7 @@ def check_permission_unsafe(role, for_network):
         context.logger.info('Allowed user %s access to %s.', identify_user(), identify_resource())
     else:
         log_access_denied('They lack the role {role}'.format(role=role))
-        raise InsufficientRights(role=role)
+        raise InsufficientRights(use_name=authorization.username, role=role)
 
 
 ### GETTING ROLES ###
@@ -104,9 +96,9 @@ role_cache = dogpile.cache.make_region().configure('dogpile.cache.memory', expir
 def get_roles(user_name, password):
     """Returns a set of the blockip roles of the user with the given credentials. May raise NotAuthorized."""
     context.logger.info('Connecting to LDAP to authenticate user %s.', identify_user(use_user_name=False))
-    user_dn = USER_DN_TEMPLATE.format(user_name=user_name)
-    with get_ldap_connection(user_dn, password) as ldap_connection:
-        roles_entries = search_for_roles(ldap_connection, user_dn)
+    ldap_user = context.settings.get('ldap', 'user_name_template').format(user_name=user_name)
+    with get_ldap_connection(ldap_user, password) as ldap_connection:
+        roles_entries = search_for_roles(ldap_connection, user_name)
     role_names = extract_role_names(roles_entries)
     role_names = get_with_implied_roles(role_names)
     return role_names
@@ -128,6 +120,7 @@ def get_with_implied_roles(roles):
 def get_ldap_connection(user_dn, password):
     """Returns an (open and bound) LDAP connection for the user with the given credentials."""
     try:
+        print(user_dn, password)
         return ldap3.Connection(
             ldap3.Server(context.settings.get('ldap', 'host'), use_ssl=context.settings.getboolean('ldap', 'use_ssl')),
             user=user_dn,
@@ -140,12 +133,12 @@ def get_ldap_connection(user_dn, password):
         raise BadCredentials()
 
 
-def search_for_roles(ldap_connection, user_dn):
-    """Searches LDAP for the blockip roles of the user with the given DN. Returns the unprocessed LDAP response."""
+def search_for_roles(ldap_connection, user_name):
+    """Searches LDAP for the blockip roles of the user with the given name. Returns the unprocessed LDAP response."""
     ldap_connection.search(
-            ROLE_SEARCH_BASE,
-            ROLE_SEARCH_FILTER_TEMPLATE.format(user_dn=user_dn),
-            attributes=ROLE_SEARCH_ATTRIBUTES)
+            context.settings.get('ldap', 'role_search_base'),
+            context.settings.get('ldap', 'role_search_filter_template').format(user_name=user_name),
+            attributes=['cn'])
     return ldap_connection.response
 
 
@@ -174,9 +167,14 @@ class BadCredentials(NotAuthorized):
 
 class InsufficientRights(NotAuthorized):
     """Raised if the user lacks a role that is required to access a given resource."""
-    message_template = 'You do not have the role {}, which is required to access this resource.'.format(ROLE_PATH_TEMPLATE)
-    solution_template = 'To request that role, go to {}.'.format(REQUEST_ROLE_URL_TEMPLATE)
     status_code = 403
+
+    def perform_preinitialization(self, **parameters):
+        # context.settings is not yet available when the class is being created...
+        message_template_template = 'You do not have the role {role_path}, which is required to access this resource.'
+        role_path = context.settings.get('ldap', 'role_path_template', fallback='{role}')
+        self.message_template = message_template_template.format(role_path=role_path)
+        self.solution_template = context.settings.get('messages', 'missing_role_solution', fallback=None)
 
 
 class CannotTalkToLDAP(errors.EnvironmentError):

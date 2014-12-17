@@ -57,11 +57,11 @@ class ServiceError(Exception):
     parameters_to_add_to_response = []
 
     def __init__(self, **parameters):
+        self.perform_preinitialization(**parameters)
         save_response_parameters(self, parameters)
         format_response_attribute_templates(self, parameters)
-        self.perform_extra_initialization(**parameters)
 
-    def perform_extra_initialization(self, **parameters):
+    def perform_preinitialization(self, **parameters):
         """Does nothing, but can be overridden by subclasses, should the need arise."""
 
 
