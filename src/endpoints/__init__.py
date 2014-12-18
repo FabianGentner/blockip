@@ -129,3 +129,5 @@ class MultipleDurations(errors.RequestError):
 
 import endpoints.blacklist
 import endpoints.whitelist
+import endpoints.history
+

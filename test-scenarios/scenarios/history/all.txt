@@ -1,0 +1,195 @@
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data for='12 hours'
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X DELETE ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/whitelist/192.0.2.1 --user ${USER} --data comment='Testing...'
+$ curl -X DELETE ${HOST}/whitelist/192.0.2.1 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/30 --user ${USER} --data comment='Testing...' --data for='12 hours'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/30 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X DELETE ${HOST}/blacklist/192.0.2.0/30 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/whitelist/192.0.2.0/30 --user ${USER} --data comment='Testing...'
+$ curl -X DELETE ${HOST}/whitelist/192.0.2.0/30 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/24 --user ${USER} --data comment='Testing...' --data for='12 hours'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/24 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X DELETE ${HOST}/blacklist/192.0.2.0/24 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/whitelist/192.0.2.0/24 --user ${USER} --data comment='Testing...'
+$ curl -X DELETE ${HOST}/whitelist/192.0.2.0/24 --user ${USER} --data comment='Testing...'
+$ curl -X POST ${HOST}/blacklist/192.0.2.1 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/30 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X POST ${HOST}/blacklist/192.0.2.0/24 --user ${USER} --data comment='Testing...' --data for='24 hours'
+$ curl -X GET ${HOST}/history/192.0.2.0/30 --user ${USER} --data comment='Testing...'
+{
+  "history": [
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:00",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 00:00:00",
+      "nullified": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner"
+      },
+      "status": "SUPERSEDED",
+      "type": "BLACKLIST"
+    },
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:01",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:00",
+      "nullified": {
+        "at": "2014-12-12 12:00:02",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "CANCELED",
+      "type": "BLACKLIST"
+    },
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:03",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "nullified": {
+        "at": "2014-12-12 12:00:04",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "CANCELED",
+      "type": "WHITELIST"
+    },
+    {
+      "address": "192.0.2.0/30",
+      "created": {
+        "at": "2014-12-12 12:00:05",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 00:00:05",
+      "nullified": {
+        "at": "2014-12-12 12:00:06",
+        "by": "fgentner"
+      },
+      "status": "SUPERSEDED",
+      "type": "BLACKLIST"
+    },
+    {
+      "address": "192.0.2.0/30",
+      "created": {
+        "at": "2014-12-12 12:00:06",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:06",
+      "nullified": {
+        "at": "2014-12-12 12:00:07",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "CANCELED",
+      "type": "BLACKLIST"
+    },
+    {
+      "address": "192.0.2.0/30",
+      "created": {
+        "at": "2014-12-12 12:00:08",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "nullified": {
+        "at": "2014-12-12 12:00:09",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "CANCELED",
+      "type": "WHITELIST"
+    },
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:10",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 00:00:10",
+      "nullified": {
+        "at": "2014-12-12 12:00:11",
+        "by": "fgentner"
+      },
+      "status": "SUPERSEDED",
+      "type": "BLACKLIST"
+    },
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:11",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:11",
+      "nullified": {
+        "at": "2014-12-12 12:00:12",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "CANCELED",
+      "type": "BLACKLIST"
+    },
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:13",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "nullified": {
+        "at": "2014-12-12 12:00:14",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "status": "CANCELED",
+      "type": "WHITELIST"
+    },
+    {
+      "address": "192.0.2.1/32",
+      "created": {
+        "at": "2014-12-12 12:00:15",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:15",
+      "status": "ACTIVE",
+      "type": "BLACKLIST"
+    },
+    {
+      "address": "192.0.2.0/30",
+      "created": {
+        "at": "2014-12-12 12:00:16",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:16",
+      "status": "ACTIVE",
+      "type": "BLACKLIST"
+    },
+    {
+      "address": "192.0.2.0/24",
+      "created": {
+        "at": "2014-12-12 12:00:17",
+        "by": "fgentner",
+        "comment": "Testing..."
+      },
+      "end": "2014-12-13 12:00:17",
+      "status": "ACTIVE",
+      "type": "BLACKLIST"
+    }
+  ]
+}
+

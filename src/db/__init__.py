@@ -66,6 +66,7 @@ def execute_query(connection, query, parameters=(), mapper=utilities.identity):
     given mapper function, and returns the result.
     """
     with connection.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor) as cursor:
+        context.logger.debug('Executing query\n%s\nwith parameters %s.', query, parameters)
         try:
             cursor.execute(query, parameters)
         except psycopg2.Error as e:
@@ -94,7 +95,7 @@ def wrap_expected_errors(e):
 
 PATTERN_MALFORMED_TIMESTAMP = re.compile(r'invalid input syntax for type timestamp( with time zone)?: "(.*)"')
 PATTERN_MALFORMED_INTERVAL = re.compile(r'invalid input syntax for type interval: "(.*)"')
-PATTERN_SHORT_DURATION = re.compile(r'new row for relation "blacklist_entry" violates check constraint "blacklist_entry_valid_duration"')
+PATTERN_SHORT_DURATION = re.compile(r'new row for relation "blocking_rule" violates check constraint "br_valid_duration"')
 
 
 # WRAPPERS
@@ -162,6 +163,8 @@ psycopg2.extensions.register_adapter(ipaddress.IPv6Network, str_adapter)
 
 ### CONVENIENCE IMPORTS ###
 
+import db.common
 import db.whitelist
 import db.blacklist
+import db.history
 

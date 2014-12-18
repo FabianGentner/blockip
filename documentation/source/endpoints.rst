@@ -6,3 +6,4 @@ Endpoints
 
    endpoints-whitelist
    endpoints-blacklist
+   endpoints-history

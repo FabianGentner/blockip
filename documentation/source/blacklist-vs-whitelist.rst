@@ -1,4 +1,4 @@
-Blacklist Vs. Whitelist
+Blacklist vs. Whitelist
 =======================
 
 *blockip* allows users both to blacklist and to whitelist IP addresses. The interaction between blacklist and whitelist
