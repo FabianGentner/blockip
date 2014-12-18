@@ -6,6 +6,9 @@ Permissions
 *reader*
     Allows the user to see the black- and whitelist. Implied by all other roles.
 
+*history-reader*
+    Allows the user to see inactive black- and whitelist entries. Implies *reader*.
+
 *blacklister*
     Allows the user to add single IP addresses -- but not networks -- to the blacklist. Implies *reader*, and is
     implied by *network-blacklister*.
