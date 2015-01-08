@@ -13,7 +13,7 @@ import sys
 DEFAULT_URL = 'http://127.0.0.1:5000'
 HERE = pathlib.Path(os.path.abspath(__name__)).parent
 SCENARIO_PATH = HERE / 'scenarios'
-DATABASE_CREATION_SCRIPT_PATH = HERE.parent / 'database' / 'recreate-local-database.sh'
+DATABASE_CREATION_SCRIPT_PATH = HERE.parent / 'database' / 'create-database.py'
 
 COMMAND_URL_PLACEHOLDER = '${HOST}'
 COMMAND_CREDENTIALS_PLACEHOLDER = '${USER}'
@@ -46,7 +46,7 @@ def main():
 
 
 def recreate_database():
-    command = [str(DATABASE_CREATION_SCRIPT_PATH)]
+    command = ['python', str(DATABASE_CREATION_SCRIPT_PATH), '-D']
     output = subprocess.check_output(command, stderr=subprocess.STDOUT, cwd=str(HERE.parent)).decode('UTF-8')
     if 'ERROR' in output:
         print('Attempting to recreate the database caused one or more errors:')

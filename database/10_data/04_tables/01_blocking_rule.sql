@@ -1,14 +1,14 @@
-CREATE TABLE zbi_data.blocking_rule (
+CREATE TABLE __SCHEMA__.blocking_rule (
     br_id serial PRIMARY KEY,
-    br_type zbi_data.blocking_rule_type NOT NULL,
+    br_type __SCHEMA__.blocking_rule_type NOT NULL,
     br_address cidr NOT NULL,
     br_end timestamp(0),
-    br_created timestamp(0) NOT NULL DEFAULT zbi_data.utcnow(),
+    br_created timestamp(0) NOT NULL DEFAULT __SCHEMA__.utcnow(),
     br_created_by text NOT NULL,
     br_creation_comment text NOT NULL,
     br_nullified timestamp(0),
     br_nullified_by text,
-    br_nullification_type zbi_data.nullification_type,
+    br_nullification_type __SCHEMA__.nullification_type,
     br_nullification_comment text,
 
     -- Blacklist entries must have an end; whitelist entries must not.

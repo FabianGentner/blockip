@@ -17,9 +17,9 @@ GET_ACTIVE_RULES_BY_TYPE_QUERY = """
              br_created,
              br_created_by,
              br_creation_comment
-        FROM zbi_data.blocking_rule
+        FROM __SCHEMA__.blocking_rule
        WHERE br_type = %(type)s
-         AND (br_end IS NULL OR br_end > zbi_data.utcnow())
+         AND (br_end IS NULL OR br_end > __SCHEMA__.utcnow())
          AND br_nullification_type IS NULL
     ORDER BY br_created ASC,
              br_id ASC;
@@ -38,7 +38,7 @@ def add_rule_simple(connection, type, address, duration, user, comment):
 
 
 ADD_RULE_QUERY = """
-    INSERT INTO zbi_data.blocking_rule
+    INSERT INTO __SCHEMA__.blocking_rule
                 (br_address,
                  br_type,
                  br_end,
@@ -69,13 +69,13 @@ def cancel_rule_simple(connection, type, address, user, comment):
 
 
 CANCEL_RULE_QUERY = """
-       UPDATE zbi_data.blocking_rule
-          SET br_nullified = zbi_data.utcnow(),
+       UPDATE __SCHEMA__.blocking_rule
+          SET br_nullified = __SCHEMA__.utcnow(),
               br_nullified_by = %(user)s,
               br_nullification_type = 'CANCELED',
               br_nullification_comment = %(comment)s
         WHERE br_type = %(type)s
-          AND (br_end IS NULL OR br_end > zbi_data.utcnow())
+          AND (br_end IS NULL OR br_end > __SCHEMA__.utcnow())
           AND br_nullification_type IS NULL
           AND br_address = %(address)s
     RETURNING br_address,
@@ -107,9 +107,9 @@ GET_OVERLAPPING_ACTIVE_RULES_BY_TYPE_QUERY = """
            br_created,
            br_created_by,
            br_creation_comment
-      FROM zbi_data.blocking_rule
+      FROM __SCHEMA__.blocking_rule
      WHERE br_type = %(type)s
-       AND (br_end IS NULL OR br_end > zbi_data.utcnow())
+       AND (br_end IS NULL OR br_end > __SCHEMA__.utcnow())
        AND br_nullification_type IS NULL
        AND (br_address >> %(address)s OR br_address <<= %(address)s)
        AND br_id != %(excluded_id)s;
@@ -151,7 +151,7 @@ def durationify(query, duration_type):
 
 DURATION_QUERY_SNIPPETS = {
     None: '%(duration)s',
-    'for': 'zbi_data.utcnow() + %(duration)s::interval',
+    'for': '__SCHEMA__.utcnow() + %(duration)s::interval',
     'until': '%(duration)s AT TIME ZONE \'UTC\'',
 }
 

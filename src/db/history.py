@@ -10,8 +10,8 @@ def get_overlapping_entries(connection, address):
 
 GET_HISTORY_FOR_ADDRESS_QUERY = """
       SELECT br_type,
-             (CASE WHEN br_nullification_type IS NOT NULL THEN br_nullification_type::text::zbi_data.blocking_rule_status
-                  WHEN br_end IS NOT NULL AND br_end < zbi_data.utcnow() THEN 'ENDED'
+             (CASE WHEN br_nullification_type IS NOT NULL THEN br_nullification_type::text::__SCHEMA__.blocking_rule_status
+                  WHEN br_end IS NOT NULL AND br_end < __SCHEMA__.utcnow() THEN 'ENDED'
                   ELSE 'ACTIVE'
               END) AS br_status,
              br_address,
@@ -22,7 +22,7 @@ GET_HISTORY_FOR_ADDRESS_QUERY = """
              br_nullified,
              br_nullified_by,
              br_nullification_comment
-        FROM zbi_data.blocking_rule
+        FROM __SCHEMA__.blocking_rule
        WHERE (br_address >> %(address)s OR br_address <<= %(address)s)
     ORDER BY br_created ASC,
              br_id ASC;
