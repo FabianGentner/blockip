@@ -66,7 +66,7 @@ GET_EXISTING_WHITELIST_ENTRIES_QUERY = """
            br_created,
            br_created_by,
            br_creation_comment
-      FROM zbi_data.blocking_rule
+      FROM __SCHEMA__.blocking_rule
      WHERE br_type = 'WHITELIST'
        AND br_nullification_type IS NULL
        AND br_address = %(address)s;

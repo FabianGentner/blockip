@@ -69,9 +69,9 @@ GET_EXISTING_LONGER_BLACKLIST_ENTRIES_QUERY = """
            br_created,
            br_created_by,
            br_creation_comment
-      FROM zbi_data.blocking_rule
+      FROM __SCHEMA__.blocking_rule
      WHERE br_type = 'BLACKLIST'
-       AND br_end > zbi_data.utcnow()
+       AND br_end > __SCHEMA__.utcnow()
        AND br_nullification_type IS NULL
        AND br_address = %(address)s
        AND br_end > {duration_snippet};
@@ -101,12 +101,12 @@ def supersede_shorter_blacklist_entries(connection, address, duration, user, sup
 
 
 SUPERSEDE_SHORTER_BLACKLIST_ENTRIES_QUERY = """
-       UPDATE zbi_data.blocking_rule
-          SET br_nullified = zbi_data.utcnow(),
+       UPDATE __SCHEMA__.blocking_rule
+          SET br_nullified = __SCHEMA__.utcnow(),
               br_nullified_by = %(user)s,
               br_nullification_type = 'SUPERSEDED'
         WHERE br_type = 'BLACKLIST'
-          AND br_end > zbi_data.utcnow()
+          AND br_end > __SCHEMA__.utcnow()
           AND br_nullification_type IS NULL
           AND br_address = %(address)s
           AND br_end < {duration_snippet}

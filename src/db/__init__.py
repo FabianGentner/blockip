@@ -65,13 +65,21 @@ def execute_query(connection, query, parameters=(), mapper=utilities.identity):
     Executes the given query with the given parameters using the given connection, maps the returned rows with the
     given mapper function, and returns the result.
     """
+    query = add_schema(query)
+    context.logger.debug('Executing query\n%s\nwith parameters %s.', query, parameters)
     with connection.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor) as cursor:
-        context.logger.debug('Executing query\n%s\nwith parameters %s.', query, parameters)
         try:
             cursor.execute(query, parameters)
         except psycopg2.Error as e:
             raise wrap_expected_errors(e)
         return [mapper(row) for row in cursor.fetchall()]
+
+
+def add_schema(query):
+    """Relaces all instances of the __SCHEMA__ placeholder in the given query with the actual schema name."""
+    schema = context.settings.get('db', 'schema', fallback='')
+    schema = schema + '.' if schema else schema
+    return query.replace('__SCHEMA__.', schema)
 
 
 ### ERROR HANDLING ###
